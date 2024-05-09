@@ -47,7 +47,7 @@ import api from "../api/axiosConfig";
 // }
 export const CreateTransaction = () => {
     const [nameTransaction, setNameTransaction] = useState('');
-    const [typeTransaction, setTypeTransaction] = useState('');
+    // const [typeTransaction, setTypeTransaction] = useState('');
     const [sum, setSum] = useState('');
     const [productNumberScore, setProductNumberScore] = useState('');
 

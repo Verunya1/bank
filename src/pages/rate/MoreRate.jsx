@@ -134,6 +134,7 @@ export const MoreRate = (props) => {
     } else {
         return <div>Rate не существует или не содержит свойство rateId</div>;
     }
+
 };
 
 
