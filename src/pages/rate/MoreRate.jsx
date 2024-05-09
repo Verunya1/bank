@@ -101,6 +101,18 @@ export const MoreRate = (props) => {
 
     }, [rateId]);
 
+    const handleCreate = async (id) => {
+        const dataToSend = {
+            rateId: id
+        };
+        try {
+            await api.post(`/createProduct`, dataToSend);
+            console.log(dataToSend);
+            // После успешного удаления можно выполнить дополнительные действия, например, обновить список карточек
+        } catch (error) {
+            console.error("Error create card:", error);
+        }
+    }
     if (rateId) {
         return (
             <div>
@@ -112,8 +124,8 @@ export const MoreRate = (props) => {
                         <p>Процент обслуживания: {rateDetails.percentService}</p>
                         <p>Платежная система: {rateDetails.namePaymentSystem}</p>
                         <p>Описание: {rateDetails.description}</p>
-                        <Link to={`/card`} className="btn btn-primary">
-                            Подробнее
+                        <Link to={`/card`} className="btn btn-primary" onClick={() => handleCreate(rateId)}>
+                            Открыть карту
                         </Link>
                     </>
                 )}

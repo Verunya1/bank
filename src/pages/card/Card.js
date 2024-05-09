@@ -1,6 +1,8 @@
 import React, {Fragment, useEffect, useState} from "react";
 import './card.css'
 import api from "../../api/axiosConfig";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 // export const Card = () => {
@@ -68,7 +70,7 @@ import api from "../../api/axiosConfig";
 export const Card = () => {
     const [cards, setCards] = useState([]);
 
-
+    const [showDeleteButton, setShowDeleteButton] = useState(false);
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -88,6 +90,15 @@ export const Card = () => {
         }
     }, []); // Пус
 
+    const handleDelete = async (id) => {
+        try {
+            await api.delete(`/deleteProduct/${id}`);
+            // После успешного удаления можно выполнить дополнительные действия, например, обновить список карточек
+        } catch (error) {
+            console.error("Error deleting card:", error);
+        }
+    }
+
     return (
         <Fragment>
             <h1>Карточка</h1>
@@ -102,9 +113,27 @@ export const Card = () => {
                                 <label className="d-block">
                                     <div className="d-flex position-relative">
                                         <div>
-                                            <img src={card.image} className={card.type === 'visa' ? 'visa' : 'master'} alt={card.type}/>
+                                            <img src={card.image} className={card.type === 'visa' ? 'visa' : 'master'}
+                                                 alt={card.type}/>
                                             <p className="mt-2 mb-4 text-white fw-bold">{card.numberScore}</p>
                                             <p className="text-white fw-bold">{card.balance}$</p>
+                                        </div>
+                                        <div className="dropdown">
+                                            <button className="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+
+                                            </button>
+                                            <ul className="dropdown-menu dropdown-menu-dark"
+                                                aria-labelledby="dropdownMenuButton2">
+                                                {/*<li><a className="dropdown-item" href="#" onClick={handleDelete(card.numberScore)}>Закрыть</a></li>*/}
+                                                <button type="submit" className="dropdown-item"
+                                                        onClick={() => handleDelete(card.numberScore)}>Закрыть
+                                                </button>
+                                                <li>
+                                                    <hr className="dropdown-divider"/>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </label>
