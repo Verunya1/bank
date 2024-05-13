@@ -120,6 +120,8 @@ export const Card = () => {
     return (
         <Fragment>
             <h1>Карточка</h1>
+            {userRole && (
+                <>
             <div className="wrapper">
                 <div className="card px-4">
                     <div className="my-3">
@@ -162,8 +164,11 @@ export const Card = () => {
                             </div>
                         </div>
                     ))}
+
                 </div>
             </div>
+                </>
+            )}
         </Fragment>
     );
 };
