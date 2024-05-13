@@ -104,10 +104,27 @@
 import React, {Fragment} from "react";
 import api from '../api/axiosConfig';
 import {useState, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 export const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
 
+    const [userRole, setUserRole] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
+
+    const navigate = useNavigate();
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Извлечь userId из токена
+            console.log("UserRole:", userRole);
+
+        }
+    };
     // const getTransactions = async () => {
     //     try {
     //         const response = await api.get('/getTransactionAll');
@@ -129,14 +146,18 @@ export const Transaction = () => {
         }
 
         fetchTransactions(); // Вызываем функцию fetchTransactions при монтировании компонента
-
+        determineUserRole();
         return () => {
             // Здесь можно добавить очистку (cleanup) если необходимо
         }
+
     }, []); // Пус
+
 
     return (
         <Fragment>
+            {userRole && (
+                <>
             <h1>Transaction</h1>
             <table className="table">
                 <thead>
@@ -160,6 +181,8 @@ export const Transaction = () => {
                 ))}
                 </tbody>
             </table>
+                </>
+            )}
         </Fragment>
     )
 }

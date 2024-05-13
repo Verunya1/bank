@@ -3,6 +3,8 @@ import './card.css'
 import api from "../../api/axiosConfig";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 
 // export const Card = () => {
@@ -69,7 +71,21 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 export const Card = () => {
     const [cards, setCards] = useState([]);
+    const [userRole, setUserRole] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
 
+    const navigate = useNavigate();
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Извлечь userId из токена
+            console.log("UserRole:", userRole);
+
+        }
+    };
     const [showDeleteButton, setShowDeleteButton] = useState(false);
 
     useEffect(() => {
@@ -83,11 +99,13 @@ export const Card = () => {
             }
         }
 
-        fetchTransactions(); // Вызываем функцию fetchTransactions при монтировании компонента
+        fetchTransactions();// Вызываем функцию fetchTransactions при монтировании компонента
+        determineUserRole();
 
         return () => {
             // Здесь можно добавить очистку (cleanup) если необходимо
         }
+
     }, []); // Пус
 
     const handleDelete = async (id) => {

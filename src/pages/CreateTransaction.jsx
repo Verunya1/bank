@@ -1,5 +1,7 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import api from "../api/axiosConfig";
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 
 // export const CreateTransaction = () => {
@@ -53,6 +55,16 @@ export const CreateTransaction = () => {
 
     const [selectedOperation, setSelectedOperation] = useState('');
 
+
+
+    const [userRole, setUserRole] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
+
+    const navigate = useNavigate();
+
+
+
     const handleSelectChange = (e) => {
         setSelectedOperation(e.target.value);
     };
@@ -68,14 +80,6 @@ export const CreateTransaction = () => {
         };
 
         try {
-            // const response = await fetch('http/localhost:8080/vBank/createTransaction', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(dataToSend)
-            // });
-
             const response = await api.post(`/createTransaction`, dataToSend);
             console.log(dataToSend);
             console.log(response.data);
@@ -88,9 +92,25 @@ export const CreateTransaction = () => {
             console.error('Ошибка при отправке данных в базу данных', error);
         }
     };
+    useEffect(() => {
+        determineUserRole();
+    }, []);
+
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Извлечь userId из токена
+            console.log("UserRole:", userRole);
+
+        }
+    };
 
     return (
         <Fragment>
+            {userRole && (
+                <>
             <h1>CreateTransaction</h1>
             <div className="row g-2">
                 <div className="col-md">
@@ -133,7 +153,8 @@ export const CreateTransaction = () => {
             </div>
 
             <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Отправить</button>
-
+                </>
+            )}
         </Fragment>
         //  const CreateTransaction = () => {
         //     const [nameTransaction, setNameTransaction] = useState('');

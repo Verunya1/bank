@@ -25,28 +25,28 @@ export const OffersOnAccounts = () => {
     //     determineUserRole();
     // }, [movieId, getMovieData]);
 
-    const createRoll = async () => {
-        if (!userId) {
-            alert('Необходима авторизация.');
-            navigate('/login');
-            return;
-        }
-        const dataToSend = {
-            nameRate: nameRate,
-            description: description,
-            percentService: parseFloat(percentService),
-            namePaymentSystem: namePaymentSystem
-        };
-        if (userRole === "ADMIN") {
-            try {
-                await api.post(`/createRate`, dataToSend);
-                console.log(dataToSend);
-                // После успешного удаления можно выполнить дополнительные действия, например, обновить список карточек
-            } catch (error) {
-                console.error("Error create card:", error);
-            }
-        }
-    };
+    // const createRoll = async () => {
+    //     if (!userId) {
+    //         alert('Необходима авторизация.');
+    //         navigate('/login');
+    //         return;
+    //     }
+    //     const dataToSend = {
+    //         nameRate: nameRate,
+    //         description: description,
+    //         percentService: parseFloat(percentService),
+    //         namePaymentSystem: namePaymentSystem
+    //     };
+    //     if (userRole === "ADMIN") {
+    //         try {
+    //             await api.post(`/createRate`, dataToSend);
+    //             console.log(dataToSend);
+    //             // После успешного удаления можно выполнить дополнительные действия, например, обновить список карточек
+    //         } catch (error) {
+    //             console.error("Error create card:", error);
+    //         }
+    //     }
+    // };
 
 
     const determineUserRole = () => {
@@ -56,7 +56,6 @@ export const OffersOnAccounts = () => {
             setUserRole(decoded.role); // Устанавливаем роль пользователя
             setUserId(decoded.userId); // Извлечь userId из токена
             console.log("UserRole:", userRole);
-
         }
     };
 
@@ -87,12 +86,6 @@ export const OffersOnAccounts = () => {
         fetchRates();
         determineUserRole();
     }, []);
-    // {
-    //     "nameRate" : "Пробный чебурек",
-    //     "description" : "По заявкам, поданным самостоятельно через систему интернет-трейдинга.Оборот в день, руб. От 0 до 1 000 000 включительно 0,060%. Свыше 1 000 000 до 50 000 000 включительно",
-    //     "percentService": 0.03,
-    //     "namePaymentSystem": "Visa"
-    // }
     const handleCreate = async () => {
         const dataToSend = {
             nameRate: nameRate,
