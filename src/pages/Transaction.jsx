@@ -108,19 +108,15 @@ import {useState, useEffect} from "react";
 export const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
 
-    const getTransactions = async () => {
-        try {
-            const response = await api.get('/getTransactionAll');
-            setTransactions(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error fetching transactions: ", error);
-        }
-    }
-
-    // useEffect(() => {
-    //     getTransactions();
-    // }, );
+    // const getTransactions = async () => {
+    //     try {
+    //         const response = await api.get('/getTransactionAll');
+    //         setTransactions(response.data);
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching transactions: ", error);
+    //     }
+    // }
     useEffect(() => {
         const fetchTransactions = async () => {
             try {

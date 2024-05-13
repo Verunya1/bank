@@ -63,6 +63,8 @@ import {PersonalAccount} from "./pages/lk/PersonalAccount";
 import {Navbar} from "./components/Navbar";
 import Footer from "./components/Footer";
 import {MoreRate} from "./pages/rate/MoreRate";
+import LoginForm from "./components/LoginForm";
+import Registration from "./components/Registration";
 
 
 
@@ -78,6 +80,8 @@ function App() {
                 <Route path={'/vBank/getRateAll'} element={<OffersOnAccounts/>}/>
                 <Route path={'/personalAccount'} element={<PersonalAccount/>}/>
                 <Route path={'/vBank/getRate/:rateId'} element={<MoreRate/>}/>
+                <Route path={'/login'} element={<LoginForm/>}/>
+                <Route path={'/register'} element={<Registration/>}/>
             </Routes>
             <Footer/>
         </Router>
