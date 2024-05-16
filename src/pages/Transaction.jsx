@@ -101,6 +101,18 @@
 // //     );
 // // }
 
+
+
+// const getTransactions = async () => {
+//     try {
+//         const response = await api.get('/getTransactionAll');
+//         setTransactions(response.data);
+//         console.log(response.data);
+//     } catch (error) {
+//         console.error("Error fetching transactions: ", error);
+//     }
+// }
+
 import React, {Fragment} from "react";
 import api from '../api/axiosConfig';
 import {useState, useEffect} from "react";
@@ -122,22 +134,17 @@ export const Transaction = () => {
             setUserRole(decoded.role); // Устанавливаем роль пользователя
             setUserId(decoded.userId); // Извлечь userId из токена
             console.log("UserRole:", userRole);
+            return decoded.userId; // возвращаем userId
 
         }
     };
-    // const getTransactions = async () => {
-    //     try {
-    //         const response = await api.get('/getTransactionAll');
-    //         setTransactions(response.data);
-    //         console.log(response.data);
-    //     } catch (error) {
-    //         console.error("Error fetching transactions: ", error);
-    //     }
-    // }
+
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await api.get('/getTransactionAll');
+                const userId = await determineUserRole();
+                const response = await api.get(`/getTransactionsUsers/${userId}`);
+                // const response = await api.get(`/getTransactionsUsers/6`);
                 setTransactions(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -146,7 +153,7 @@ export const Transaction = () => {
         }
 
         fetchTransactions(); // Вызываем функцию fetchTransactions при монтировании компонента
-        determineUserRole();
+        // determineUserRole();
         return () => {
             // Здесь можно добавить очистку (cleanup) если необходимо
         }
@@ -170,8 +177,8 @@ export const Transaction = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {transactions.map(transaction => (
-                    <tr key={transaction.id}>
+                {/*{transactions.map(transaction => (*/}
+                {transactions.sort((a, b) => new Date(b.dateTransaction) - new Date(a.dateTransaction)).map(transaction => (                    <tr key={transaction.id}>
                         <td>{transaction.numberScore}</td>
                         <td>{transaction.nameTransaction}</td>
                         <td>{transaction.sum}</td>

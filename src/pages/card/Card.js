@@ -83,6 +83,7 @@ export const Card = () => {
             setUserRole(decoded.role); // Устанавливаем роль пользователя
             setUserId(decoded.userId); // Извлечь userId из токена
             console.log("UserRole:", userRole);
+            return decoded.userId; // возвращаем userId
 
         }
     };
@@ -91,7 +92,8 @@ export const Card = () => {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await api.get('/getProductAll');
+                const userId = await determineUserRole();
+                const response = await api.get(`/getProductsUsers/${userId}`); //`
                 setCards(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -106,7 +108,7 @@ export const Card = () => {
             // Здесь можно добавить очистку (cleanup) если необходимо
         }
 
-    }, []); // Пус
+    }, [userId]); // Пус
 
     const handleDelete = async (id) => {
         try {
