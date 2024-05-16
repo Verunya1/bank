@@ -10,7 +10,7 @@ root.render(
     <React.StrictMode>
         {/* Передаем компонент App для отображения */}
         <App />
-        <AuthContent/>
+        {/*<AuthContent/>*/}
     </React.StrictMode>
 );
 

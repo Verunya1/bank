@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import {useNavigate, useParams} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
+import ImageComponent from "./ImageComponent";
 
 
 // export const Card = () => {
@@ -119,56 +120,61 @@ export const Card = () => {
         }
     }
 
+
     return (
         <Fragment>
             <h1>Карточка</h1>
             {userRole && (
                 <>
-            <div className="wrapper">
-                <div className="card px-4">
-                    <div className="my-3">
-                        <p className="h8">Мои карты</p>
-                    </div>
-                    {cards.map((card, index) => (
-                        <div key={index} className="debit-card mb-3">
-                            <div className="d-flex flex-column h-100">
-                                <label className="d-block">
-                                    <div className="d-flex position-relative">
-                                        <div>
-                                            <img src={card.image} className={card.type === 'visa' ? 'visa' : 'master'}
-                                                 alt={card.type}/>
-                                            <p className="mt-2 mb-4 text-white fw-bold">{card.numberScore}</p>
-                                            <p className="text-white fw-bold">{card.balance}$</p>
-                                        </div>
-                                        <div className="dropdown">
-                                            <button className="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton2" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
+                    <div className="wrapper">
+                        <div className="card px-4">
+                            <div className="my-3">
+                                <p className="h8">Мои карты</p>
+                            </div>
+                            {cards.map((card, index) => (
+                                <div key={index} className="debit-card mb-3">
+                                    <div className="d-flex flex-column h-100">
+                                        <label className="d-block">
+                                            <div className="d-flex position-relative">
 
-                                            </button>
-                                            <ul className="dropdown-menu dropdown-menu-dark"
-                                                aria-labelledby="dropdownMenuButton2">
-                                                {/*<li><a className="dropdown-item" href="#" onClick={handleDelete(card.numberScore)}>Закрыть</a></li>*/}
-                                                <button type="submit" className="dropdown-item"
-                                                        onClick={() => handleDelete(card.numberScore)}>Закрыть
-                                                </button>
-                                                <li>
-                                                    <hr className="dropdown-divider"/>
-                                                </li>
-                                            </ul>
+                                                <div>
+                                                    <ImageComponent imageUrl={card.name}/>
+                                                    <img src={card.image}
+                                                         className={card.name === 'Visa' ? 'Visa' : card.name === 'Мир' ? 'Мир' : 'Mastercard'}
+                                                        /* alt={card.name}*/ />
+                                                    <p className="mt-2 mb-4 text-white fw-bold">{card.numberScore}</p>
+                                                    <p className="text-white fw-bold">{card.balance}$</p>
+                                                </div>
+                                                <div className="dropdown">
+                                                    <button className="btn btn-secondary dropdown-toggle" type="button"
+                                                            id="dropdownMenuButton2" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+
+                                                    </button>
+                                                    <ul className="dropdown-menu dropdown-menu-dark"
+                                                        aria-labelledby="dropdownMenuButton2">
+                                                        {/*<li><a className="dropdown-item" href="#" onClick={handleDelete(card.numberScore)}>Закрыть</a></li>*/}
+                                                        <button type="submit" className="dropdown-item"
+                                                                onClick={() => handleDelete(card.numberScore)}>Закрыть
+                                                        </button>
+                                                        <li>
+                                                            <hr className="dropdown-divider"/>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </label>
+                                        <div
+                                            className="mt-auto fw-bold d-flex align-items-center justify-content-between">
+                                            <p></p>
+                                            <p>{card.name}</p>
                                         </div>
                                     </div>
-                                </label>
-                                <div className="mt-auto fw-bold d-flex align-items-center justify-content-between">
-                                    <p></p>
-                                    <p>{card.name}</p>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
 
-                </div>
-            </div>
+                        </div>
+                    </div>
                 </>
             )}
         </Fragment>
