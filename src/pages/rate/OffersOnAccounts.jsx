@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import api from '../../api/axiosConfig.js';
 import {useState, useEffect} from "react";
 import {jwtDecode} from 'jwt-decode';
@@ -15,38 +15,6 @@ export const OffersOnAccounts = () => {
 
     const [userRole, setUserRole] = useState(null);
     const [userId, setUserId] = useState(null); // Добавить состояние для userId
-    const params = useParams();
-
-    const navigate = useNavigate(); // to navigate after actions
-    //
-    // useEffect(() => {
-    //     getMovieData(movieId);
-    //     fetchReviews(movieId);
-    //     determineUserRole();
-    // }, [movieId, getMovieData]);
-
-    // const createRoll = async () => {
-    //     if (!userId) {
-    //         alert('Необходима авторизация.');
-    //         navigate('/login');
-    //         return;
-    //     }
-    //     const dataToSend = {
-    //         nameRate: nameRate,
-    //         description: description,
-    //         percentService: parseFloat(percentService),
-    //         namePaymentSystem: namePaymentSystem
-    //     };
-    //     if (userRole === "ADMIN") {
-    //         try {
-    //             await api.post(`/createRate`, dataToSend);
-    //             console.log(dataToSend);
-    //             // После успешного удаления можно выполнить дополнительные действия, например, обновить список карточек
-    //         } catch (error) {
-    //             console.error("Error create card:", error);
-    //         }
-    //     }
-    // };
 
 
     const determineUserRole = () => {
@@ -106,48 +74,48 @@ export const OffersOnAccounts = () => {
     return (
         <Fragment>
             {userRole === "ADMIN" && (
-            <>
-                <h1>OffersOnAccounts</h1>
-                <div className="row g-2">
-                    <div className="col-md">
-                        <div className="form-group">
-                            <label htmlFor="nameRateInput">Введите наименование нового предложения:</label>
-                            <input type="text" className="form-control" min="0" value={nameRate}
-                                   onChange={(e) => setNameRate(e.target.value)} />
+                <>
+                    <h1>OffersOnAccounts</h1>
+                    <div className="row g-2">
+                        <div className="col-md">
+                            <div className="form-group">
+                                <label htmlFor="nameRateInput">Введите наименование нового предложения:</label>
+                                <input type="text" className="form-control" min="0" value={nameRate}
+                                       onChange={(e) => setNameRate(e.target.value)}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="row g-2">
-                    <div className="col-md">
-                        <div className="form-group">
-                            <label htmlFor="descriptionInput">Введите описание предложения:</label>
-                            <input type="text" className="form-control" value={description}
-                                   onChange={(e) => setDescription(e.target.value)} />
+                    <div className="row g-2">
+                        <div className="col-md">
+                            <div className="form-group">
+                                <label htmlFor="descriptionInput">Введите описание предложения:</label>
+                                <input type="text" className="form-control" value={description}
+                                       onChange={(e) => setDescription(e.target.value)}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="row g-2">
-                    <div className="col-md">
-                        <div className="form-group">
-                            <label htmlFor="amountInput">Введите процент обслуживания:</label>
-                            <input type="number" className="form-control" min="0" step="0.01"
-                                   value={percentService}
-                                   onChange={(e) => setPercentService(e.target.value)} />
+                    <div className="row g-2">
+                        <div className="col-md">
+                            <div className="form-group">
+                                <label htmlFor="amountInput">Введите процент обслуживания:</label>
+                                <input type="number" className="form-control" min="0" step="0.01"
+                                       value={percentService}
+                                       onChange={(e) => setPercentService(e.target.value)}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-md">
-                    <div className="form-floating">
-                        <select className="form-select" value={namePaymentSystem} onChange={handleSelectChange}>
-                            <option value="Mastercard">Mastercard</option>
-                            <option value="Visa">Visa</option>
-                            <option value="Мир">Мир</option>
-                        </select>
-                        <label htmlFor="floatingSelectGrid">Выберите наименование платежной системы</label>
+                    <div className="col-md">
+                        <div className="form-floating">
+                            <select className="form-select" value={namePaymentSystem} onChange={handleSelectChange}>
+                                <option value="Mastercard">Mastercard</option>
+                                <option value="Visa">Visa</option>
+                                <option value="Мир">Мир</option>
+                            </select>
+                            <label htmlFor="floatingSelectGrid">Выберите наименование платежной системы</label>
+                        </div>
+                        <button type="submit" className="btn btn-primary" onClick={handleCreate}>Отправить</button>
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={handleCreate}>Отправить</button>
-                </div>
-            </>
+                </>
             )}
             {rates.map((rate) => (
                 <div className="row" key={rate.id}>
@@ -165,74 +133,8 @@ export const OffersOnAccounts = () => {
                     </div>
                 </div>
             ))}
-            {/*            {userRole === "ADMIN" && (*/}
-            {/*    <>*/}
-            {/*        <h1>OffersOnAccounts</h1>*/}
-            {/*        <div className="row g-2">*/}
-            {/*            <div className="col-md">*/}
-            {/*                <div className="form-group">*/}
-            {/*                    <label htmlFor="nameRateInput">Введите наименование нового предложения:</label>*/}
-            {/*                    <input type="text" className="form-control" min="0" value={nameRate}*/}
-            {/*                           onChange={(e) => setNameRate(e.target.value)} />*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="row g-2">*/}
-            {/*            <div className="col-md">*/}
-            {/*                <div className="form-group">*/}
-            {/*                    <label htmlFor="descriptionInput">Введите описание предложения:</label>*/}
-            {/*                    <input type="text" className="form-control" value={description}*/}
-            {/*                           onChange={(e) => setDescription(e.target.value)} />*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="row g-2">*/}
-            {/*            <div className="col-md">*/}
-            {/*                <div className="form-group">*/}
-            {/*                    <label htmlFor="amountInput">Введите процент обслуживания:</label>*/}
-            {/*                    <input type="number" className="form-control" min="0" step="0.01"*/}
-            {/*                           value={percentService}*/}
-            {/*                           onChange={(e) => setPercentService(e.target.value)} />*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-md">*/}
-            {/*            <div className="form-floating">*/}
-            {/*                <select className="form-select" value={namePaymentSystem} onChange={handleSelectChange}>*/}
-            {/*                    <option value="Mastercard">Mastercard</option>*/}
-            {/*                    <option value="Visa">Visa</option>*/}
-            {/*                    <option value="Мир">Мир</option>*/}
-            {/*                </select>*/}
-            {/*                <label htmlFor="floatingSelectGrid">Выберите наименование платежной системы</label>*/}
-            {/*            </div>*/}
-            {/*            <button type="submit" className="btn btn-primary" onClick={handleCreate}>Отправить</button>*/}
-            {/*        </div>*/}
-            {/*    </>*/}
-            {/*)}*/}
+
         </Fragment>
     )
         ;
 };
-
-// <div className="col-md-6">
-//                     <label htmlFor="nameRate" className="form-label">Наименование продукта</label>
-//                     <input type="email" className="form-control" id="nameRate"/>
-//                 </div>
-//                 <div className="col-md-6">
-//                 <label htmlFor="description" className="form-label">Описание</label>
-//                 <input type="password" className="form-control" id="description"/>
-//                 </div>
-//
-//                 <div className="col-12">
-//                 <label htmlFor="percentService" className="form-label">Процент обслуживания</label>
-//                 <input type="text" className="form-control" id="percentService" placeholder="0.00%"/>
-//                 </div>
-//
-//                 <div className="col-12">
-//                 <label htmlFor="namePaymentSystem" className="form-label">Наименование платежной системы</label>
-//                 <input type="text" className="form-control" id="namePaymentSystem"
-//                 placeholder="Mastercard, Visa, Мир"/>
-//                 </div>
-//                 <div className="col-12">
-//                 <button type="submit" className="btn btn-primary">Создать</button>
-//                 </div>

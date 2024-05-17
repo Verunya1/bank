@@ -12,8 +12,6 @@ const Header = () => {
                     <li><a href="/rate">Предложения</a></li>
                     <li><a href="/contact">Контакты</a></li>
                     <li><a href="/about">О нас</a></li>
-                    {/*<li><a href="/login">Login</a></li>*/}
-                    {/*<li><a href="/register">Register</a></li>*/}
                 </ul>
             </div>
             <div className="presentation"></div>

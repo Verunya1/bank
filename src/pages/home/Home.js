@@ -1,83 +1,13 @@
 import React, {Fragment, useEffect, useState} from "react";
 import './home.css'
 import api from "../../api/axiosConfig";
-import {useNavigate, useParams} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
-// import { Pie } from 'react-chartjs-2';
 
-
-
-// export const Home = () => {
-//     const [cards, setCards] = useState([]);
-//     const getCards = async () => {
-//         try {
-//             const response = await api.get('/getProductAll');
-//             setCards(response.data);
-//             console.log(response.data);
-//         } catch (error) {
-//             console.error("Error fetching transactions: ", error);
-//         }
-//     }
-//
-//     // useEffect(() => {
-//     //     getTransactions();
-//     // }, );
-//     useEffect(() => {
-//         const fetchTransactions = async () => {
-//             try {
-//                 const response = await api.get('/getProductAll');
-//                 setCards(response.data);
-//                 console.log(response.data);
-//             } catch (error) {
-//                 console.error("Error fetching transactions: ", error);
-//             }
-//         }
-//
-//         fetchTransactions(); // Вызываем функцию fetchTransactions при монтировании компонента
-//
-//         return () => {
-//             // Здесь можно добавить очистку (cleanup) если необходимо
-//         }
-//     }, []); // Пус
-//     return (
-//         <Fragment>
-//             <h1>Home</h1>
-//             <div className="presentation"></div>
-//             <div className="container">
-//                 <div className="row m-0">
-//                     <div className="col-md-7 col-12">
-//                         <div className="row">
-//                             <div className="col-12 mb-4">
-//                                 <div className="row box-right">
-//                                     <div className="col-md-8 ps-0 "><p className="ps-3 textmuted fw-bold h6 mb-0">Общая
-//                                         сумма</p> <p className="h1 fw-bold d-flex"><span
-//                                         className=" fas fa-dollar-sign textmuted pe-1 h6 align-text-top mt-1"></span>84,254
-//                                     </p></div>
-//                                     <div className="col-md-4"><p className="p-blue"><span
-//                                         className="fas fa-circle pe-2"></span>Mastercard </p> <p
-//                                         className="fw-bold mb-3">
-//                                         <span className="fas fa-dollar-sign pe-1"></span>1254 <span
-//                                         className="textmuted">.50</span></p> <p className="p-org"><span
-//                                         className="fas fa-circle pe-2"></span>Мир</p>
-//                                         <p className="fw-bold"><span
-//                                         className="fas fa-dollar-sign pe-1"></span>00<span
-//                                         className="textmuted">.00</span></p></div>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </Fragment>
-//     )
-// }
 export const Home = () => {
     const [cards, setCards] = useState([]);
     const [userRole, setUserRole] = useState(null);
     const [userId, setUserId] = useState(null); // Добавить состояние для userId
-    const params = useParams();
 
-    const navigate = useNavigate();
     const determineUserRole = () => {
         const token = localStorage.getItem('auth_token');
         if (token) {
@@ -125,17 +55,6 @@ export const Home = () => {
     }, [userId]); // Пус
 
 
-    // const getChartData = () => {
-    //     const labels = cards.map(card => card.numberScore);
-    //     const data = cards.map(card => (card.amount / getTotalAmount() * 100).toFixed(2));
-    //     return {
-    //         labels: labels,
-    //         datasets: [{
-    //             data: data,
-    //             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#63FF84'], // Цвета для каждой секции
-    //         }]
-    //     };
-    // }
     return (
         <Fragment>
             <h1>Home</h1>
@@ -154,6 +73,7 @@ export const Home = () => {
                                             {getTotalAmount()}
                                         </p>
                                     </div>
+
                                     <div className="col-md-4">
                                         {cards.map(card => (
                                             <div key={card.numberScore}>

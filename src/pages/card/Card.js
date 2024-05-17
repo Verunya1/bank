@@ -3,80 +3,14 @@ import './card.css'
 import api from "../../api/axiosConfig";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import {useNavigate, useParams} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import ImageComponent from "./ImageComponent";
-
-
-// export const Card = () => {
-//     return (
-//         <Fragment>
-//             <h1>Карточка</h1>
-//             <div className="wrapper">
-//                 <div className="card px-4">
-//                     <div className=" my-3">
-//                         <p className="h8">Мои карты</p>
-//                     </div>
-//                     <div className="debit-card mb-3">
-//                         <div className="d-flex flex-column h-100">
-//                             <label className="d-block">
-//                                 <div className="d-flex position-relative">
-//                                     <div>
-//                                         <img src="https://www.freepnglogos.com/uploads/visa-inc-logo-png-11.png"
-//                                              className="visa"
-//                                              alt=""/>
-//                                         <p className="mt-2 mb-4 text-white fw-bold">Сай Кумар</p>
-//                                         <p className="text-white fw-bold">1200.90</p>
-//                                     </div>
-//                                 </div>
-//                             </label>
-//                             <div className="mt-auto fw-bold d-flex align-items-center justify-content-between">
-//                                 <p>4989 1237 1234 4532</p>
-//                                 <p>01/24</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="debit-card card-2 mb-4">
-//                         <div className="d-flex flex-column h-100">
-//                             <label className="d-block">
-//                                 <div className="d-flex position-relative">
-//                                     <div>
-//                                         <img
-//                                             src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-png-transparent-svg-vector-bie-supply-0.png"
-//                                             alt="master" className="master"/>
-//                                         <p className="text-white fw-bold">Сай Кумар</p>
-//                                         <p className="text-white fw-bold">2000.90</p>
-//                                     </div>
-//                                 </div>
-//                             </label>
-//                             <div className="mt-auto fw-bold d-flex align-items-center justify-content-between">
-//                                 <p className="m-0">5540 2345 3453 2343</p>
-//                                 <p className="m-0">05/23</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </Fragment>
-//     )
-// }
-//    const getCards = async () => {
-//         try {
-//             const response = await api.get('/getProductAll');
-//             setCards(response.data);
-//             console.log(response.data);
-//         } catch (error) {
-//             console.error("Error fetching transactions: ", error);
-//         }
-//     }
 
 export const Card = () => {
     const [cards, setCards] = useState([]);
     const [userRole, setUserRole] = useState(null);
     const [userId, setUserId] = useState(null); // Добавить состояние для userId
-    const params = useParams();
 
-    const navigate = useNavigate();
     const determineUserRole = () => {
         const token = localStorage.getItem('auth_token');
         if (token) {
@@ -88,7 +22,6 @@ export const Card = () => {
 
         }
     };
-    const [showDeleteButton, setShowDeleteButton] = useState(false);
 
     useEffect(() => {
         const fetchTransactions = async () => {

@@ -1,9 +1,5 @@
 import React, {Fragment, useEffect, useState} from "react";
 import "./lk.css"
-// import LoginForm from './LoginForm';
-// import AuthContent from './AuthContent';
-// import {request, setAuthHeader} from '../../api/axiosConfig';
-// // import * as React from 'react';
 import {Button, Container} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
@@ -16,15 +12,8 @@ export const PersonalAccount = () => {
 
     const [userRole, setUserRole] = useState(null);
     const [userId, setUserId] = useState(null); // Добавить состояние для userId
-    const params = useParams();
 
     const [users, setUsers] = useState(null);
-
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [phone, setPhone] = useState('');
-
-    const [selectedOperation, setSelectedOperation] = useState('');
 
     const handleLoginRedirect = () => {
         navigate('/login'); // Переход на страницу входа
@@ -118,7 +107,6 @@ export const PersonalAccount = () => {
                                                                     <h6 className="text-muted f-w-400">{users.login}</h6>
                                                                     <i className="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                                                 </>)}
-                                                            {/*<h6 className="text-muted f-w-400">{users.login}</h6>*/}
                                                         </div>
                                                         <div className="col-sm-6">
                                                             <p className="m-b-10 f-w-600">Телефон</p>
@@ -128,19 +116,16 @@ export const PersonalAccount = () => {
                                                                     <h6 className="text-muted f-w-400">{users.phone}</h6>
                                                                     <i className="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                                                 </>)}
-                                                            {/*<h6 className="text-muted f-w-400">{users.phone}</h6>*/}
                                                         </div>
                                                     </div>
                                                     <div className="row">
                                                         <div className="col-sm-6">
                                                             <p className="m-b-10 f-w-600">Имя</p>
-                                                            {/*<h6 className="text-muted f-w-400">firstName</h6>*/}
                                                             {users && users.firstName && (
                                                                 <>
                                                                     <h6 className="text-muted f-w-400">{users.firstName}</h6>
                                                                     <i className="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                                                 </>)}
-                                                            {/*<h6 className="text-muted f-w-400">{users.firstName}</h6>*/}
                                                         </div>
                                                         <div className="col-sm-6">
                                                             <p className="m-b-10 f-w-600">Фамилия</p>
@@ -150,9 +135,7 @@ export const PersonalAccount = () => {
                                                                     <h6 className="text-muted f-w-400">{users.lastName}</h6>
                                                                     <i className="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                                                 </>)}
-                                                            {/*<h6 className="text-muted f-w-400">{users.lastName}</h6>*/}
                                                         </div>
-                                                        {/*<button type="submit" className="btn btn-primary">Выйти</button>*/}
                                                         <Button variant="secondary"
                                                                 onClick={handleLogout}>Выйти</Button></div>
                                                 </div>

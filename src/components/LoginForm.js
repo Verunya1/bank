@@ -46,7 +46,6 @@ const LoginForm = () => {
                         </div>
                     </div>
                 </div>
-                {/*<button type="submit" className="mt-3" variant="secondary">Login</button>*/}
                 <Button className="mt-3" variant="secondary" onClick={onSubmit}>Login</Button></form>
         </div>
     );
