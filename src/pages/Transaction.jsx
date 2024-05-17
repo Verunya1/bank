@@ -101,30 +101,50 @@
 // //     );
 // // }
 
+
+
+// const getTransactions = async () => {
+//     try {
+//         const response = await api.get('/getTransactionAll');
+//         setTransactions(response.data);
+//         console.log(response.data);
+//     } catch (error) {
+//         console.error("Error fetching transactions: ", error);
+//     }
+// }
+
 import React, {Fragment} from "react";
 import api from '../api/axiosConfig';
 import {useState, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 export const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
 
-    const getTransactions = async () => {
-        try {
-            const response = await api.get('/getTransactionAll');
-            setTransactions(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error fetching transactions: ", error);
-        }
-    }
+    const [userRole, setUserRole] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
 
-    // useEffect(() => {
-    //     getTransactions();
-    // }, );
+    const navigate = useNavigate();
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Извлечь userId из токена
+            console.log("UserRole:", userRole);
+            return decoded.userId; // возвращаем userId
+
+        }
+    };
+
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await api.get('/getTransactionAll');
+                const userId = await determineUserRole();
+                const response = await api.get(`/getTransactionsUsers/${userId}`);
+                // const response = await api.get(`/getTransactionsUsers/6`);
                 setTransactions(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -133,14 +153,18 @@ export const Transaction = () => {
         }
 
         fetchTransactions(); // Вызываем функцию fetchTransactions при монтировании компонента
-
+        // determineUserRole();
         return () => {
             // Здесь можно добавить очистку (cleanup) если необходимо
         }
+
     }, []); // Пус
+
 
     return (
         <Fragment>
+            {userRole && (
+                <>
             <h1>Transaction</h1>
             <table className="table">
                 <thead>
@@ -153,8 +177,8 @@ export const Transaction = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {transactions.map(transaction => (
-                    <tr key={transaction.id}>
+                {/*{transactions.map(transaction => (*/}
+                {transactions.sort((a, b) => new Date(b.dateTransaction) - new Date(a.dateTransaction)).map(transaction => (                    <tr key={transaction.id}>
                         <td>{transaction.numberScore}</td>
                         <td>{transaction.nameTransaction}</td>
                         <td>{transaction.sum}</td>
@@ -164,6 +188,8 @@ export const Transaction = () => {
                 ))}
                 </tbody>
             </table>
+                </>
+            )}
         </Fragment>
     )
 }

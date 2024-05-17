@@ -6,6 +6,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -14,9 +15,11 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
 }
+
 .wrapper {
-    width: 1290px;
+    max-width: 1280px; /* изменено на max-width */
     margin: 50px auto;
+    padding: 0 20px; /* добавлено внутреннее заполнение для адаптивности */
 }
 
 header .logo {

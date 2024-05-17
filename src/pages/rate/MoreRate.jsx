@@ -76,15 +76,30 @@
 //         </Fragment>
 //     );
 import React, { useEffect, useState } from "react";
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import api from '../../api/axiosConfig.js';
+import {jwtDecode} from "jwt-decode";
 
 export const MoreRate = (props) => {
     const location = useLocation();
     let {rateId} = useParams();
-    // const rateId = location.state ? location.state.rateId : null;
-    // const rateId = location.state.rateId;
+    const [userRole, setUserRole] = useState(null);
     const [rateDetails, setRateDetails] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
+
+    const navigate = useNavigate();
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Устанавливаем userId из токена
+            console.log("UserRole:", userRole);
+            console.log("UserId:", userId);
+            return decoded.userId; // возвращаем userId
+        }
+    };
 
     useEffect(() => {
         const handleGetRateDetails = async (id) => {
@@ -96,14 +111,34 @@ export const MoreRate = (props) => {
                 console.error("Error fetching rate details: ", error);
             }
         };
-
         handleGetRateDetails(rateId);
+        // determineUserRole();
 
     }, [rateId]);
+    useEffect(() => {
+        determineUserRole();
+        if (userId) {
+            handleCreate(rateDetails, userId);
+        }
+    }, [userId]);
 
-    const handleCreate = async (id) => {
+    // useEffect(() => {
+    //     handleGetRateDetails(rateId);
+    // }, [rateId]);
+    // const handleGetRateDetails = async (id) => {
+    //     try {
+    //         const response = await api.get(`/getRate/${id}`);
+    //         console.log(response.data);
+    //         setRateDetails(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching rate details: ", error);
+    //     }
+    // };
+
+    const handleCreate = async (id, userId) => {
         const dataToSend = {
-            rateId: id
+            rateId: id,
+            userId: userId
         };
         try {
             await api.post(`/createProduct`, dataToSend);
@@ -112,6 +147,7 @@ export const MoreRate = (props) => {
         } catch (error) {
             console.error("Error create card:", error);
         }
+        determineUserRole();
     }
     if (rateId) {
         return (
@@ -124,7 +160,7 @@ export const MoreRate = (props) => {
                         <p>Процент обслуживания: {rateDetails.percentService}</p>
                         <p>Платежная система: {rateDetails.namePaymentSystem}</p>
                         <p>Описание: {rateDetails.description}</p>
-                        <Link to={`/card`} className="btn btn-primary" onClick={() => handleCreate(rateId)}>
+                        <Link to={`/card`} className="btn btn-primary" onClick={() => handleCreate(rateId, userId)}>
                             Открыть карту
                         </Link>
                     </>
