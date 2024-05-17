@@ -1,6 +1,8 @@
 import React, {Fragment, useEffect, useState} from "react";
 import './home.css'
 import api from "../../api/axiosConfig";
+import {useNavigate, useParams} from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 // import { Pie } from 'react-chartjs-2';
 
 
@@ -71,6 +73,22 @@ import api from "../../api/axiosConfig";
 // }
 export const Home = () => {
     const [cards, setCards] = useState([]);
+    const [userRole, setUserRole] = useState(null);
+    const [userId, setUserId] = useState(null); // Добавить состояние для userId
+    const params = useParams();
+
+    const navigate = useNavigate();
+    const determineUserRole = () => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserRole(decoded.role); // Устанавливаем роль пользователя
+            setUserId(decoded.userId); // Извлечь userId из токена
+            console.log("UserRole:", userRole);
+            return decoded.userId; // возвращаем userId
+
+        }
+    };
 
     const getTotalAmount = () => {
         if (cards.length === 0) {
@@ -84,18 +102,28 @@ export const Home = () => {
         return card ? card.balance : 0;
     }
 
+
     useEffect(() => {
-        const fetchCards = async () => {
+        const fetchCardsUsers = async () => {
             try {
-                const response = await api.get('/getProductAll');
+                const userId = await determineUserRole();
+                const response = await api.get(`/getProductsUsers/${userId}`); //`
                 setCards(response.data);
+                console.log(response.data);
             } catch (error) {
-                console.error("Error fetching cards: ", error);
+                console.error("Error fetching transactions: ", error);
             }
         }
 
-        fetchCards(); // Fetch data from server when component mounts
-    }, []);
+        fetchCardsUsers();// Вызываем функцию fetchTransactions при монтировании компонента
+        determineUserRole();
+
+        return () => {
+            // Здесь можно добавить очистку (cleanup) если необходимо
+        }
+
+    }, [userId]); // Пус
+
 
     // const getChartData = () => {
     //     const labels = cards.map(card => card.numberScore);

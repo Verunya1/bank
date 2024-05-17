@@ -126,14 +126,14 @@ export const Card = () => {
             <h1>Карточка</h1>
             {userRole && (
                 <>
-                    <div className="wrapper">
-                        <div className="card px-4">
+                    <div className="wrapper" style={{ maxWidth: '460px', margin: '0 auto' }}>
+                        <div className="card px-4" style={{ maxWidth: '460px', margin: '0 auto' }}>
                             <div className="my-3">
                                 <p className="h8">Мои карты</p>
                             </div>
                             {cards.map((card, index) => (
-                                <div key={index} className="debit-card mb-3">
-                                    <div className="d-flex flex-column h-100">
+                                <div key={index} className="debit-card mb-3" style={{ maxWidth: '460px', margin: '0 auto' }}>
+                                    <div className="d-flex flex-column h-100" >
                                         <label className="d-block">
                                             <div className="d-flex position-relative">
 
