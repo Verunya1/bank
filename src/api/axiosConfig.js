@@ -3,7 +3,8 @@ import { getAuthToken } from '../utils/Auth';
 
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/vBank',
+    // baseURL: 'http://localhost:8080/vBank',
+    baseURL: 'http://147.45.150.25:8080/vBank',
 });
 
 axiosInstance.interceptors.request.use(config => {
